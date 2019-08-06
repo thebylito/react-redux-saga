@@ -15,22 +15,44 @@ const HomePage = () => {
   })
 
   const dispatch = useDispatch();
-  const { userList, userListLoading, userListError } = useSelector(state => state.user);
+  const { userList, userListLoading, userListError, count } = useSelector(state => state.user);
 
   React.useEffect(() => {
     dispatch(Creators.getUsersRequest())
+    dispatch({ type: 'GET_FORK_REQUEST' })
+
   }, [dispatch]);
 
   React.useEffect(() => {
-    if(userListError !== ''){
+    if (userListError !== '') {
       setLocalState({
         alertOpen: true
       })
     }
   }, [userListError]);
 
+
+  const onVerAgora = () => {
+    dispatch({ type: 'VER_AGORA' })
+  }
+  const onCancelar = () => {
+    dispatch({ type: 'CANCELAR' })
+  }
+  const onIncrementEvery = () => {
+    dispatch({ type: 'ON_INCREMENT_EVERY' })
+  }
+  const onIncrementLatest = () => {
+    dispatch({ type: 'ON_INCREMENT_LATEST' })
+  }
+
   return (
     <div>
+    <button onClick={onVerAgora}>VER AGORA</button>
+    <button onClick={onCancelar}>CANCELAR</button>
+    <button onClick={onIncrementEvery}>onIncrementEvery</button>
+    <button onClick={onIncrementLatest}>onIncrementLatest</button>
+    <div>{count}</div>
+
       <Title>Lista de usuarios</Title>
       {userListError !== '' && <div>{userListError}</div>}
       {userListLoading && <div>Carregando</div>}
